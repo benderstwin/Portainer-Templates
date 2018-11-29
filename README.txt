@@ -42,6 +42,7 @@ step 3.  Create the needed directories
 step 4. grab the startup script for portainer
  - change to $DOCKERDIR/portainer and run 
 wget https://github.com/benderstwin/Portainer-Templates/blob/master/start.sh
+
 #if you want to change the port from the default of 9000, you can edit the file or manually run the docker command 
 #docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v ${DOCKERDIR}/portainer/templates.json:/templates.json -v ${DOCKERDIR}/portainer/data:/data portainer/portainer
 
@@ -98,4 +99,3 @@ step 8.  join traefik to the proxy network
 step 9: external access
     - just forward 443/8080 to your host in your router and set up a DNS record
     - in cloudflare, set up a CNAME record for traefik.yourdomain.com and make sure the little cloud is orange
-    
