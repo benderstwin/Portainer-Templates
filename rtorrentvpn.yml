@@ -23,7 +23,7 @@
       - "traefik.frontend.headers.browserXSSFilter=true"
       - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.frontend.headers.forceSTSHeader=true"
-      - "traefik.port=8112"
+      - "traefik.port=9443"
     environment:
       - VPN_ENABLED=yes
       - VPN_USER=${VPNUSER}
@@ -38,5 +38,5 @@
       - DEBUG=true
       - PHP_TZ=${TZ}
       - UMASK=000
-      - PUID=${PGID}
-      - PGID=${PUID}
+      - PUID=${PUID}
+      - PGID=${PGID}
