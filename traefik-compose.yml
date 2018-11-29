@@ -6,7 +6,6 @@ services:
     restart: always
     domainname: ${DOMAINNAME}
     networks:
-      - default
       - traefik_proxy
     ports:
 #      - "80:80"
@@ -42,8 +41,6 @@ networks:
   traefik_proxy:
     external:
       name: traefik_proxy
-  default:
-    driver: bridge
 
 
  
