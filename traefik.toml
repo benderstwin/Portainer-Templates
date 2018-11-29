@@ -20,7 +20,7 @@ defaultEntryPoints = ["https", "http"]
   [entryPoints.https]
   address = ":443"
 #  [entryPoints.https.tls]
-#  sniStrict = true  #####ENABLE TO USE SSL FULL(strict)#########
+#  sniStrict = true  ##### ENABLE TO USE SSL FULL(strict)#########
 
 [file]
 #   watch = true
@@ -30,14 +30,14 @@ defaultEntryPoints = ["https", "http"]
 [[tls]]
   entryPoints = ["https"]
   [tls.certificate]
-    certFile = "/shared/domain.com.crt"
-    keyFile = "/shared/domain.com.key"
+    certFile = "/shared/domain.com.crt"  ##  ENTER PATH TO CRT
+    keyFile = "/shared/domain.com.key"  ##ENTER PATH TO KEY
 
 
 # Connection to docker host system (docker.sock)
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "${DOMAINNAME}"
+domain = "${DOMAINNAME}"  ## ENTER YOUR DOMAIN NAME
 watch = true
 # This will hide all docker containers that don't have explicitly
 # set label to "enable"
