@@ -1,0 +1,44 @@
+#debug = true
+
+logLevel = "ERROR" #DEBUG, INFO, WARN, ERROR, FATAL, PANIC
+InsecureSkipVerify = false
+defaultEntryPoints = ["https", "http"]
+
+# WEB interface of Traefik - it will show web page with overview of frontend and backend configurations
+[api]
+  entryPoint = "traefik"
+  dashboard = true
+  address = ":8080"
+  usersFile = "/shared/.htpasswd" ####YOU MUST ADD THIS FILE HINT: GOOGLE HTACCESS GENERATOR####
+
+# Force HTTPS
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+#  [entryPoints.https.tls]
+#  sniStrict = true  #####ENABLE TO USE SSL FULL(strict)#########
+
+[file]
+#   watch = true
+#   filename = "rules.toml"
+
+#####ENABLE TO USE SSL AND ADD CERTS######
+[[tls]]
+  entryPoints = ["https"]
+  [tls.certificate]
+    certFile = "/shared/domain.com.crt"
+    keyFile = "/shared/domain.com.key"
+
+
+# Connection to docker host system (docker.sock)
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "${DOMAINNAME}"
+watch = true
+# This will hide all docker containers that don't have explicitly
+# set label to "enable"
+exposedbydefault = false
