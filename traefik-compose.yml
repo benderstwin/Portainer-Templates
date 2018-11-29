@@ -4,8 +4,6 @@
     container_name: traefik
     restart: always
     domainname: ${DOMAINNAME}
-    networks:
-      - traefik_proxy
     ports:
 #      - "80:80"
       - "443:443"
