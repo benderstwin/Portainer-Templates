@@ -37,10 +37,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro  ## Path to docker socket, normally this default will work
       - ${DOCKERDIR}/traefik:/etc/traefik
       - ${DOCKERDIR}/shared:/shared
-networks:
-  traefik_proxy:
-    external:
-      name: traefik_proxy
-
 
  
