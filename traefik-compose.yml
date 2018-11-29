@@ -1,0 +1,50 @@
+version: "3.6"
+services:
+ traefik:
+    hostname: traefik
+    image: traefik:latest
+    container_name: traefik
+    restart: always
+    domainname: ${DOMAINNAME}
+    networks:
+      - default
+      - traefik_proxy
+    ports:
+#      - "80:80"
+      - "443:443"
+#      - "8080:8080"
+#    expose:
+#      - 8080  #used to access traefik directly, may not be needed.
+#    environment:
+#      - CLOUDFLARE_EMAIL=${CLOUDFLARE_EMAIL}  ###### Only used if you want to USE LE to generate certs (requires further config)
+#      - CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}  ##### Only used if you want to USE LE to generate certs (requires further config)
+    labels:
+      - "traefik.enable=true"  #Enable Traefik to expose app to the frontend and proxy
+      - "traefik.backend=traefik"  #name of the container Traefik should map to on the back end (sonarr, radarr, jackett etc...)
+      - "traefik.frontend.rule=Host:traefik.${DOMAINNAME}"  ## Sets the subdomain rule.
+#      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /traefik"
+      - "traefik.port=8080" ##The port Traefik will assign to the container
+      - "traefik.frontend.auth.basic.usersFile=/shared/.htaccess"  ## This is what sets up the front end interface to use the generated .htaccess file.  Add this line to any site you want additional security on.
+      - "traefik.docker.network=traefik_proxy"  ## Specify the docker network to join
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro  ## Path to docker socket, normally this default will work
+      - ${DOCKERDIR}/traefik:/etc/traefik
+      - ${DOCKERDIR}/shared:/shared
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy
+  default:
+    driver: bridge
+
+
+ 
