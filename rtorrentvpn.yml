@@ -4,7 +4,7 @@
     container_name: rtvpn
     image: binhex/arch-rtorrentvpn
     volumes:
-      - ${USERDIR}/downloads
+      - ${USERDIR}/data
       - ${USERDIR}/docker/rtorrentvpn/config:/config
       - /etc/localtime:/etc/localtime:ro
     ports:
