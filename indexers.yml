@@ -29,7 +29,8 @@ jackett:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=true"
- hydra:
+
+hydra:
     image: "linuxserver/hydra2"
     container_name: "hydra"
     volumes:
