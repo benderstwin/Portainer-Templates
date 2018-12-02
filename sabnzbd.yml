@@ -13,8 +13,6 @@ sabnzbd:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-    networks:
-      - traefik_proxy
     labels:
       - "traefik.enable=true"
       - "traefik.backend=sabnzbd"
