@@ -1,7 +1,7 @@
 sshd:
   container_name: sshd
   restart: always
-  image: docker.io/panubo/sshd
+  image: panubo/sshd
   ports:
     - "2222:22"
   volumes:
