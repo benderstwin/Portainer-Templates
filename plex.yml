@@ -24,8 +24,6 @@
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://ip:32400/"
-    devices:
-	    - /dev/dri:/dev/dri  
     labels:
       - "traefik.enable=true"
       - "traefik.backend=plexcloud"
