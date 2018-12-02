@@ -1,0 +1,30 @@
+tautulli:
+    container_name: plexstats
+    restart: always
+    image: linuxserver/tautulli
+    volumes:
+      - ${USERDIR}/docker/plexstats/config:/config
+      - ${USERDIR}/docker/plexstats/logs:/logs:ro
+      - ${USERDIR}/docker/shared:/shared
+#    ports:
+#      - "XXXX:8181"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=plexstats"
+      - "traefik.frontend.rule=Host:plexstats.${DOMAINNAME}"
+#      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /tautulli"
+      - "traefik.port=8181"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=true"
