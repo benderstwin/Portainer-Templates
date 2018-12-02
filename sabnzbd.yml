@@ -19,7 +19,7 @@ sabnzbd:
       - "traefik.enable=true"
       - "traefik.backend=sabnzbd"
       - "traefik.frontend.rule=Host:sabnzbd.${DOMAINNAME}"
-      - "traefik.frontend.auth.basic.usersFile=/shared/.htaccess"
+      - "traefik.frontend.auth.basic.usersFile=/shared/.htpasswd"
 #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /sabnzbd"
       - "traefik.port=8080"
       - "traefik.docker.network=traefik_proxy"
