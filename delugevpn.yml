@@ -15,7 +15,7 @@
     labels:
       - "traefik.enable=true"
       - "traefik.backend=delugevpn"
-      - "traefik.docker.network=delugevpn"
+      - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.rule=Host:delugevpn.${DOMAINNAME}"
       - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
       - "traefik.frontend.headers.SSLRedirect=true"
