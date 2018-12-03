@@ -19,7 +19,7 @@ defaultEntryPoints = ["https", "http"]
     entryPoint = "https"
   [entryPoints.https]
   address = ":443"
-#  [entryPoints.https.tls]
+  [entryPoints.https.tls]
 #  sniStrict = true  ##### ENABLE TO USE SSL FULL(strict)#########
 
 [file]
