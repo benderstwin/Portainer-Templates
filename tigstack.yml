@@ -34,6 +34,7 @@ grafana:
     environment:
       - GF_SERVER_ROOT_URL=${URL}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMINPASS}
+    user: ${PUID}
     labels:
       - "traefik.enable=true"
       - "traefik.backend=grafana"
@@ -45,6 +46,6 @@ grafana:
       - "traefik.frontend.headers.browserXSSFilter=true"
       - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.frontend.headers.forceSTSHeader=true"
-      - "traefik.port=13000"   
+      - "traefik.port=3000"   
 
     
