@@ -32,7 +32,7 @@ grafana:
     volumes:
       - ${DOCKERDIR}/grafana:/var/lib/grafana
 environment:
-    - GF_SERVER_ROOT_URL=http://grafana.${DOMAINNAME}
+    - GF_SERVER_ROOT_URL=${URL}
     - GF_SECURITY_ADMIN_PASSWORD=${ADMINPASS}
 labels:
    - "traefik.enable=true"
