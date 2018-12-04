@@ -1,0 +1,50 @@
+influxdb:
+  container_name: influxdb
+  image: influxdb:latest
+  ports:
+    - 8083:8083
+    - 8086:8086
+  volumes:
+    - ${DOCKERDIR}/influxdb:/var/lib/influxdb
+
+telegraf:
+  container_name: telegraf
+  image: bender77/telegraf-snmp
+  volumes:
+    - /var/run/utmp:/var/run/utmp
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /:/rootfs
+    - /sys:/rootfs/sys
+    - /etc:/rootfs/etc
+    - /proc:/rootfs/proc
+    - ${DOCKERDIR}/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+    - ${DOCKERDIR}/telegraf/mibs:/etc/telegraf/mibs
+  environment:
+    - HOST_PROC=/rootfs/proc
+    - HOST_SYS=/rootfs/sys
+    - HOST_ETC=/rootfs/etc
+
+grafana:
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - 13000:13000
+    volumes:
+      - ${DOCKERDIR}/grafana:/var/lib/grafana
+environment:
+    - GF_SERVER_ROOT_URL=http://grafana.${DOMAINNAME}
+    - GF_SECURITY_ADMIN_PASSWORD=${ADMINPASS}
+labels:
+   - "traefik.enable=true"
+   - "traefik.backend=grafana"
+   - "traefik.docker.network=traefik_proxy"
+   - "traefik.frontend.rule=Host:grafana.${DOMAINNAME}"
+   - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
+   - "traefik.frontend.headers.SSLRedirect=true"
+   - "traefik.frontend.headers.STSSeconds=315360000"
+   - "traefik.frontend.headers.browserXSSFilter=true"
+   - "traefik.frontend.headers.contentTypeNosniff=true"
+   - "traefik.frontend.headers.forceSTSHeader=true"
+   - "traefik.port=13000"   
+
+    
