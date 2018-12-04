@@ -12,7 +12,7 @@ telegraf:
   image: bender77/telegraf-snmp
   volumes:
     - /var/run/utmp:/var/run/utmp
-    - /var/run/docker.sock:/var/run/docker.sock
+    - /var/run/docker.sock:/var/run/docker.sock:ro
     - /:/rootfs
     - /sys:/rootfs/sys
     - /etc:/rootfs/etc
