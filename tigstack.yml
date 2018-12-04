@@ -31,20 +31,20 @@ grafana:
       - 13000:13000
     volumes:
       - ${DOCKERDIR}/grafana:/var/lib/grafana
-environment:
-    - GF_SERVER_ROOT_URL=${URL}
-    - GF_SECURITY_ADMIN_PASSWORD=${ADMINPASS}
-labels:
-   - "traefik.enable=true"
-   - "traefik.backend=grafana"
-   - "traefik.docker.network=traefik_proxy"
-   - "traefik.frontend.rule=Host:grafana.${DOMAINNAME}"
-   - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
-   - "traefik.frontend.headers.SSLRedirect=true"
-   - "traefik.frontend.headers.STSSeconds=315360000"
-   - "traefik.frontend.headers.browserXSSFilter=true"
-   - "traefik.frontend.headers.contentTypeNosniff=true"
-   - "traefik.frontend.headers.forceSTSHeader=true"
-   - "traefik.port=13000"   
+    environment:
+      - GF_SERVER_ROOT_URL=${URL}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMINPASS}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=grafana"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.rule=Host:grafana.${DOMAINNAME}"
+      - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.port=13000"   
 
     
