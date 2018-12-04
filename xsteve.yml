@@ -1,0 +1,9 @@
+xteve:
+  image: bl0m1/xtevedocker
+  container_name: xteve
+  volumes:
+    - ${DOCKERDIR}/xteve/xteve_home:/root/xteve
+    - ${DOCKERDIR}/xteve/xteve_tmp:/tmp/xteve
+  ports:
+    - "34400:34400"
+  restart: always
