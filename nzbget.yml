@@ -1,0 +1,12 @@
+nzbget:
+  container_name: nzbget
+  image: linuxserver/nzbget
+  volumes:
+    - ${USERDIR}/docker/nzbget:/config
+    - ${USERDIR}/downloads:/downloads
+  ports:
+    - 6789:6789
+  environment:
+    - TZ=${TZ}
+    - PUID=${PUID}
+    - PGID=${PGID}
