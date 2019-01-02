@@ -1,0 +1,27 @@
+watchtower:
+    image: "v2tec/watchtower"
+    container_name: "watchtower"
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+        - "443:3443"
+        - "80:3080"
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=watchtower"
+      - "traefik.frontend.rule=Host:watchtower.${DOMAINNAME}"
+      - "traefik.frontend.auth.basic.usersFile=/shared/.htpasswd"
+#      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /sabnzbd"
+      - "traefik.port=80"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=${DOMAINNAME}"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=true"
+    command: --label-enable --cleanup
