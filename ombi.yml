@@ -1,4 +1,14 @@
-ombi:
+#TEMPLATES BY BENDER#
+#VARIABLES
+#DOCKERDIR
+#TZ
+#PGID
+#PUID
+#DOMAINNAME
+
+version: '2'
+services:
+ ombi:
     container_name: ombi
     restart: always
     image: linuxserver/ombi
@@ -11,6 +21,8 @@ ombi:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+    networks:
+      - traefik_proxy
     labels:
       - "traefik.enable=true"
       - "traefik.backend=ombi"
@@ -27,3 +39,8 @@ ombi:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=true"
+
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy
