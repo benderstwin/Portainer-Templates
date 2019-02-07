@@ -1,29 +1,45 @@
+#TEMPLATES BY BENDER#
+#VARIABLES
+#DOCKERDIR
+#DOWNLOADS
+#MEDIADIR
+#TZ
+#PGID
+#PUID
+#DOMAIN NAME
+#CLAIM  //from plex.tv/claim
+
+
+version: '2'
+ services:
  plexcloud:
     container_name: plexcloud
     restart: always
     image: plexinc/pms-docker:plexpass
     volumes:
-      - ${USERDIR}/docker/plexcloud:/config
-      - ${USERDIR}/downloads/plex_tmp:/transcode
-      - ${USERDIR}/media:/media
-      - ${USERDIR}/docker/shared:/shared
+      - ${DOCKERDIR}/plexcloud:/config
+      - ${DOWNLOADS}/plex_tmp:/transcode
+      - ${MEDIADIR}:/media
+      - ${DOCKERDIR}/shared:/shared
     ports:
       - "32400:32400/tcp"
-      - "3005:3005/tcp"
-      - "8324:8324/tcp"
-      - "32469:32469/tcp"
-      - "1900:1900/udp"
-      - "32410:32410/udp"
-      - "32412:32412/udp"
-      - "32413:32413/udp"
-      - "32414:32414/udp"
+#      - "3005:3005/tcp"
+#      - "8324:8324/tcp"
+#      - "32469:32469/tcp"
+#      - "1900:1900/udp"
+#      - "32410:32410/udp"
+#      - "32412:32412/udp"
+#      - "32413:32413/udp"
+#      - "32414:32414/udp"
     environment:
       - TZ=${TZ}
       - HOSTNAME="plexcloud"
-      - PLEX_CLAIM="claim-"
+      - PLEX_CLAIM="claim-${CLAIM}"
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://ip:32400/"
+    networks:
+      - traefik_proxy
     labels:
       - "traefik.enable=true"
       - "traefik.backend=plexcloud"
@@ -40,3 +56,8 @@
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=true"
+
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy

@@ -3,8 +3,8 @@ ombi:
     restart: always
     image: linuxserver/ombi
     volumes:
-      - ${USERDIR}/docker/ombi:/config
-      - ${USERDIR}/docker/shared:/shared
+      - ${DOCKERDIR}/ombi:/config
+      - ${DOCKERDIR}/shared:/shared
     ports:
       - "3579:3579"
     environment:

@@ -1,21 +1,33 @@
-sonarr:
+#TEMPLATES BY BENDER#
+#VARIABLES
+#DOCKERDIR
+#DOWNLOADS
+#MEDIA
+#PUID
+#PGID
+#TZ
+#DOMAINNAME
+
+
+version: '2'
+
+services:
+  sonarr:
     image: "linuxserver/sonarr"
     container_name: "sonarr"
     volumes:
-      - ${USERDIR}/docker/sonarr:/config
-      - ${USERDIR}/downloads/completed:/downloads
-      - ${USERDIR}/media/tv:/tv
+      - ${DOCKERDIR}/sonarr:/config
+      - ${DOWNLOADS}/completed:/downloads
+      - ${MEDIA}/tv:/tv
 #      - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-        - "10002:8989"
+      - ${DOCKERDIR}/shared:/shared
     restart: always
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
     labels:
-      - "traefik.enable=false"
+      - "traefik.enable=true"
       - "traefik.backend=sonarr"
 #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /sonarr"
       - "traefik.frontend.rule=Host:sonarr.${DOMAINNAME}"
@@ -30,24 +42,25 @@ sonarr:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=true"
-radarr:
+    networks:
+      - traefik_proxy
+
+  radarr:
     image: "linuxserver/radarr"
     container_name: "radarr"
     volumes:
-      - ${USERDIR}/docker/radarr:/config
-      - ${USERDIR}/downloads/completed/:/downloads
-      - ${USERDIR}/media/movies:/movies
+      - ${DOCKERDIR}/radarr:/config
+      - ${DOWNLOADS}/completed/:/downloads
+      - ${MEDIA}/movies:/movies
 #      - "/etc/localtime:/etc/localtime:ro"
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "10001:7878"
+      - ${DOCKERDIR}/shared:/shared
     restart: always
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
     labels:
-      - "traefik.enable=false"
+      - "traefik.enable=true"
       - "traefik.backend=radarr"
 #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /radarr"
       - "traefik.frontend.rule=Host:radarr.${DOMAINNAME}"
@@ -62,3 +75,10 @@ radarr:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=true"
+    networks:
+      - traefik_proxy
+
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy
